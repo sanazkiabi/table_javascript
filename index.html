@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+<body>
+    
+    <script src="jq/jquery.min.js"></script>
+    <div style="text-align: center; width: 400px; border: 2px pink solid; background-color: gray;">
+    first name:<input type="text" value="" id="fninput">
+    <br>
+    <br>
+    last name :<input type="text" value="" id="lninput">
+    <br>
+    <br>
+    <button onclick="addbtn(this)">add</button>
+    <br>
+    <br>
+    <button onclick="editbtn(this)">edit</button>
+    <br>
+    <br>
+    <button onclick="deletebtn(this)" id="dtbtn">deleterow</button>
+    <br>
+    <br>
+    <table id="tb" border="3px" style="margin-left: 75px;  text-align: center; background-color: palevioletred ; color: midnightblue;">
+        <tr >
+            <th> <input type="checkbox" onclick="sellcheck(this)" name="" id=""> </th>
+            <th>first name</th>
+            <th>last name</th>
+            <th>opration</th>
+        </tr>
+    </table>
+    <script>
+        let select_row
+        let row1
+        function addbtn(btn){
+            let ninput=document.getElementById("fninput").value;
+            let linput=document.getElementById("lninput").value;
+            let trtag=document.createElement("tr")
+            row1=trtag
+            let td1=document.createElement("td")
+            td1.innerHTML= "<input name='check_box' id='check2' type='checkbox' onclick='' />"
+            let td2=document.createElement("td")
+            td2.innerText=ninput
+            let td3=document.createElement("td")
+            td3.innerText=linput
+            let td4=document.createElement("td")
+            let dellink=document.createElement("a")
+            dellink.innerHTML="delete"
+            dellink.href="#"
+            dellink.onclick=function(){delperson(trtag)}
+            let edlink=document.createElement("a")
+            edlink.innerHTML="edit"
+            edlink.href="#"
+            edlink.onclick=function(){edperson(trtag)}
+            let sp=document.createTextNode("|")
+            td4.appendChild(dellink)
+            td4.appendChild(sp)
+            td4.appendChild(edlink)
+            trtag.appendChild(td1)
+            trtag.appendChild(td2)
+            trtag.appendChild(td3)
+            trtag.appendChild(td4)
+            document.getElementById("tb").append(trtag)
+
+        }
+        function delperson(row){
+            let artb=document.getElementById("tb").children
+            for(let i of artb){
+            if(i.children[0].children[0].checked){
+                document.getElementById("tb").removeChild(row)
+            }
+
+        }    
+        }
+        function edperson(row){
+            let table=document.getElementById("tb").children;
+            for(let item of table){
+                if(item.children[0].children[0].checked){
+            let cell_row=row.children
+            let ninput=document.getElementById("fninput").value=cell_row[1].innerHTML
+            let linput=document.getElementById("lninput").value=cell_row[2].innerHTML
+            select_row=cell_row
+        }
+        }    
+        }
+        function editbtn(){
+            let checkbox_true=[]
+            let checkboxes=document.getElementsByName("check_box")
+            for(let item of checkboxes){
+                if(item.checked===true){
+                    checkbox_true.push(item)
+                    console.log(checkbox_true)
+                }
+            }
+            for(let i of checkbox_true){
+                let ninput=document.getElementById("fninput").value;
+                let linput=document.getElementById("lninput").value;
+                let row_id=i.parentNode.parentNode
+                row_id.children[1].innerHTML=ninput
+                row_id.children[2].innerHTML=linput
+            
+
+        }
+        }
+        function sellcheck(check){
+            let ar_tb=document.getElementById("tb").children
+            if(check.checked){
+                for(let i of ar_tb){
+                    i.children[0].children[0].checked=true
+                }
+
+            }
+            else{
+                for(let i of ar_tb){
+                    i.children[0].children[0].checked=false
+                }
+            }
+        }
+        function deletebtn(){
+            let checkbox_true=[]
+            let checkboxes=document.getElementsByName("check_box")
+            for(let item of checkboxes){
+                if(item.checked===true){
+                    checkbox_true.push(item)
+                    console.log(checkbox_true)
+                }
+            }
+            for(let item of checkbox_true){
+                let row_id=item.parentNode.parentNode.rowIndex
+                document.getElementById("tb").deleteRow(row_id)
+            }        
+        }
+        
+    </script>
+</div>
+</body>
+</html>
